@@ -9,3 +9,6 @@ body {
 /* polish */
 .tabular-nums { font-variant-numeric: tabular-nums; }
 html, body { scroll-behavior: smooth; }
+/* Logo polish */
+:root { --ring: 0 0% 0% / .12 }
+.drop-shadow-soft { filter: drop-shadow(0 2px 8px rgba(0,0,0,.12)); }

@@ -32,6 +32,25 @@ function usePersistedState(key, defaultVal) {
   return [state, setState];
 }
 
+function BrandHeader() {
+  return (
+    <header className="mb-5 md:mb-6">
+      <div className="flex items-center gap-3">
+        <img
+          src="/brand/crownforge-logo.png"
+          alt="Crownforge"
+          className="h-10 md:h-12 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+          loading="eager"
+          decoding="async"
+        />
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          Crownforge — Beta
+        </h1>
+      </div>
+    </header>
+  )
+}
+
 export default function App() {
   const [state, setState] = usePersistedState('ducat_game_en', DEFAULT_STATE);
   const [now, setNow] = useState(Date.now());
@@ -110,6 +129,8 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
   const nextHalving = Math.max(0, halvingInterval - (now - state.startTime));
 
   return (
+    <>
+    <BrandHeader />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="md:col-span-2 space-y-4">
         <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
