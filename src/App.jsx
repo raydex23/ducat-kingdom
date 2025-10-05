@@ -183,119 +183,104 @@ export default function App() {
   const nextHalving = Math.max(0, halvingInterval - (now - state.startTime));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-200 p-6">
-      <BrandHeader />
+  <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-200 p-6">
+    <BrandHeader />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="md:col-span-2 space-y-4">
-          {/* STATUS */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="font-semibold text-xl text-amber-400">Kingdom Status</h2>
-                <div className="mt-3">
-                  <KingdomImage level={state.kingdomLevel} />
-                </div>
-                <p className="mt-3 text-sm text-gray-300">Level: {state.kingdomLevel}</p>
-                <p className="text-sm text-gray-300">
-                  Mining Power: {Math.floor(state.miningPower)}
-                </p>
-              </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-400">Balance</div>
-                <div className="font-mono text-2xl tabular-nums text-amber-300">
-                  {Math.floor(state.balance)} $DUCAT
-                </div>
-              </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* LEWA KOLUMNA — Status + Budynki */}
+      <div className="md:col-span-2 space-y-4">
+        {/* STATUS */}
+        <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="font-semibold text-xl text-amber-400">Kingdom Status</h2>
+              <p className="mt-2 text-sm text-gray-300">Level: {state.kingdomLevel}</p>
+              <p className="text-sm text-gray-300">
+                Mining Power: {Math.floor(state.miningPower)}
+              </p>
             </div>
-
-            <div className="mt-4">
-              <button
-                onClick={upgradeKingdom}
-                className="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black/90 hover:text-black shadow-sm hover:shadow transition-all"
-              >
-                Upgrade Kingdom (1000 $DUCAT)
-              </button>
-              <button
-                onClick={reset}
-                className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition"
-              >
-                Reset
-              </button>
-            </div>
-
-            <div className="mt-2 text-sm text-gray-400">
-              Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h
+            <div className="text-right">
+              <div className="text-sm text-gray-400">Balance</div>
+              <div className="font-mono text-2xl tabular-nums text-amber-300">
+                {Math.floor(state.balance)} $DUCAT
+              </div>
             </div>
           </div>
 
-          {/* AVAILABLE MINES */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <h3 className="font-semibold text-amber-300">Available Mines</h3>
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {BUILDINGS.map(b => (
-                <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="font-semibold text-gray-100">
-                        {b.name}{' '}
-                        <span className="text-xs text-gray-400">({b.rarity})</span>
-                      </div>
-                      <div className="text-sm text-gray-400">Power +{b.basePower}</div>
+          <div className="mt-4">
+            <button
+              onClick={upgradeKingdom}
+              className="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black/90 hover:text-black shadow-sm hover:shadow transition-all"
+            >
+              Upgrade Kingdom (1000 $DUCAT)
+            </button>
+            <button
+              onClick={reset}
+              className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition"
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="mt-2 text-sm text-gray-400">
+            Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h
+          </div>
+        </div>
+
+        {/* AVAILABLE MINES */}
+        <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+          <h3 className="font-semibold text-amber-300">Available Mines</h3>
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {BUILDINGS.map(b => (
+              <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="font-semibold text-gray-100">
+                      {b.name}{' '}
+                      <span className="text-xs text-gray-400">({b.rarity})</span>
                     </div>
-                    <div className="text-right">
-                      <div className="font-mono text-gray-200">{b.price} $DUCAT</div>
-                      <button
-                        onClick={() => buyBuilding(b.id)}
-                        className="mt-2 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm transition-all"
-                      >
-                        Buy
-                      </button>
-                    </div>
+                    <div className="text-sm text-gray-400">Power +{b.basePower}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-mono text-gray-200">{b.price} $DUCAT</div>
+                    <button
+                      onClick={() => buyBuilding(b.id)}
+                      className="mt-2 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm transition-all"
+                    >
+                      Buy
+                    </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* YOUR MINES */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <h3 className="font-semibold text-amber-300">Your Mines</h3>
-            {state.buildings.length === 0 && (
-              <div className="text-sm text-gray-400">No mines owned</div>
-            )}
-            {state.buildings.map(b => (
-              <div key={b.id} className="flex justify-between p-2 border-b border-[#3b332b]">
-                <div className="text-gray-200">
-                  {b.name} x{b.count}{' '}
-                  <span className="text-xs text-gray-400">({b.rarity})</span>
-                </div>
-                <div className="font-mono text-amber-200">+{b.basePower * b.count} MP</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* STATS */}
-        <aside className="md:sticky md:top-6 h-fit">
-          <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] mb-4">
-            <h4 className="font-semibold text-amber-300">Statistics</h4>
-            <div className="mt-2 text-sm">
-              <div className="text-gray-300">
-                Mining Power:{' '}
-                <span className="font-mono tabular-nums text-gray-100">
-                  {Math.floor(state.miningPower)}
-                </span>
+        {/* YOUR MINES */}
+        <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+          <h3 className="font-semibold text-amber-300">Your Mines</h3>
+          {state.buildings.length === 0 && (
+            <div className="text-sm text-gray-400">No mines owned</div>
+          )}
+          {state.buildings.map(b => (
+            <div key={b.id} className="flex justify-between p-2 border-b border-[#3b332b]">
+              <div className="text-gray-200">
+                {b.name} x{b.count}{' '}
+                <span className="text-xs text-gray-400">({b.rarity})</span>
               </div>
-              <div className="text-gray-300">
-                Balance:{' '}
-                <span className="font-mono text-amber-200">{Math.floor(state.balance)}</span> $DUCAT
-              </div>
-              <div className="text-gray-300">Kingdom Level: {state.kingdomLevel}</div>
+              <div className="font-mono text-amber-200">+{b.basePower * b.count} MP</div>
             </div>
-          </div>
-        </aside>
+          ))}
+        </div>
       </div>
+
+      {/* PRAWA KOLUMNA — Grafika królestwa */}
+      <aside className="md:sticky md:top-6 h-fit">
+        <div className="p-3 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+          <h3 className="font-semibold text-amber-400 mb-2 text-center">Your Kingdom</h3>
+          <KingdomImage level={state.kingdomLevel} />
+        </div>
+      </aside>
     </div>
-  );
-}
+  </div>
+);
