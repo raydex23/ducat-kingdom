@@ -34,22 +34,55 @@ function usePersistedState(key, defaultVal) {
 
 function BrandHeader() {
   return (
-    <header className="mb-8 md:mb-10 text-center">
-      <div className="inline-flex flex-col items-center">
-        <img
-          src="/images/logo.png"
-          alt="Crownforge"
-          className="h-24 md:h-32 w-auto drop-shadow-[0_4px_15px_rgba(0,0,0,0.25)]"
-          loading="eager"
-          decoding="async"
-        />
-        <h1 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
-          Crownforge <span className="text-amber-600">— Beta</span>
-        </h1>
-        <p className="text-sm md:text-base text-gray-500 mt-1">
-          Build your realm, forge your wealth, rule the kingdom.
-        </p>
+    <header className="mb-8 md:mb-10">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* LOGO + NAZWA */}
+        <div className="flex items-center gap-3">
+          <img
+            src="/images/logo.png"
+            alt="Crownforge"
+            className="h-14 md:h-16 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
+            loading="eager"
+            decoding="async"
+          />
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
+            Crownforge <span className="text-amber-600">— Beta</span>
+          </h1>
+        </div>
+
+        {/* MENU */}
+        <nav className="flex gap-4 md:gap-6 text-sm md:text-base font-medium text-gray-700">
+          <a
+            href="https://jup.ag/swap/SOL-DUCAT"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-600 transition-colors"
+          >
+            Trade $DUCAT
+          </a>
+          <a
+            href="#economy"
+            className="hover:text-amber-600 transition-colors"
+          >
+            Economy
+          </a>
+          <a
+            href="#roadmap"
+            className="hover:text-amber-600 transition-colors"
+          >
+            Roadmap
+          </a>
+          <a
+            href="#community"
+            className="hover:text-amber-600 transition-colors"
+          >
+            Community
+          </a>
+        </nav>
       </div>
+
+      {/* opcjonalna linia pod menu */}
+      <div className="mt-4 border-t border-gray-200" />
     </header>
   );
 }
