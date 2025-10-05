@@ -74,7 +74,7 @@ export default function App() {
     });
   }
 
-  function KingdomImage({ level }) {
+function KingdomImage({ level }) {
   const levelImages = {
     1: '/images/kingdom_lvl1.png',
     2: '/images/kingdom_lvl2.png',
@@ -84,15 +84,25 @@ export default function App() {
   }
 
   const imgSrc = levelImages[Math.min(level, 5)]
+  const [loaded, setLoaded] = React.useState(false)
+
+  React.useEffect(() => { setLoaded(false) }, [imgSrc])
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl shadow-lg bg-gray-100">
+    <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] bg-gradient-to-b from-amber-50 to-amber-100 border border-amber-200">
+      {/* delikatny „glow” */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_30%_10%,rgba(255,255,255,.6),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,.35),transparent_40%)]" />
       <img
+        key={imgSrc}
         src={imgSrc}
         alt={`Kingdom level ${level}`}
-        className="w-full h-64 object-cover transition-all duration-700"
+        onLoad={() => setLoaded(true)}
+        className={
+          "w-full h-64 md:h-80 object-cover transition-opacity duration-700 ease-out " +
+          (loaded ? "opacity-100" : "opacity-0")
+        }
       />
-      <div className="absolute bottom-2 right-3 text-white text-sm bg-black/40 px-2 py-1 rounded">
+      <div className="absolute bottom-2 right-3 text-xs md:text-sm text-white/95 bg-black/40 backdrop-blur px-2 py-1 rounded">
         Level {level}
       </div>
     </div>
@@ -117,7 +127,7 @@ export default function App() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="md:col-span-2 space-y-4">
-        <div className="p-4 bg-white rounded-lg shadow">
+        <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="font-semibold text-xl">Kingdom Status</h2>
@@ -127,18 +137,18 @@ export default function App() {
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-500">Balance</div>
-              <div className="font-mono text-2xl">{Math.floor(state.balance)} $DUCAT</div>
+              <div className="font-mono text-2xl tabular-nums">{Math.floor(state.balance)} $DUCAT</div>
             </div>
           </div>
 
           <div className="mt-4">
-            <button onClick={upgradeKingdom} className="px-3 py-2 rounded bg-green-400 hover:bg-green-500">Upgrade Kingdom (1000 $DUCAT)</button>
-            <button onClick={reset} className="ml-3 px-3 py-2 rounded bg-red-200">Reset</button>
+            <button onClick={upgradeKingdom} className="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow transition-all">Upgrade Kingdom (1000 $DUCAT)</button>
+            <button onClick={reset} className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/15 text-red-700 border border-red-200 transition">Reset</button>
           </div>
           <div className="mt-2 text-sm text-gray-500">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</div>
         </div>
 
-        <div className="p-4 bg-white rounded-lg shadow">
+        <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
           <h3 className="font-semibold">Available Mines</h3>
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {BUILDINGS.map(b => (
@@ -150,7 +160,7 @@ export default function App() {
                   </div>
                   <div className="text-right">
                     <div className="font-mono">{b.price} $DUCAT</div>
-                    <button onClick={() => buyBuilding(b.id)} className="mt-2 px-2 py-1 rounded bg-sky-300">Buy</button>
+                    <button onClick={() => buyBuilding(b.id)} className="mt-2 px-3 py-1.5 rounded-xl bg-sky-500/90 hover:bg-sky-600 text-white shadow-sm transition-all">Buy</button>
                   </div>
                 </div>
               </div>
@@ -158,7 +168,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="p-4 bg-white rounded-lg shadow">
+        <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
           <h3 className="font-semibold">Your Mines</h3>
           {state.buildings.length === 0 && <div className="text-sm text-gray-500">No mines owned</div>}
           {state.buildings.map(b => (
@@ -170,11 +180,11 @@ export default function App() {
         </div>
       </div>
 
-      <aside>
+      <aside className="md:sticky md:top-6 h-fit">
         <div className="p-4 bg-white rounded-lg shadow mb-4">
           <h4 className="font-semibold">Statistics</h4>
           <div className="mt-2 text-sm">
-            <div>Mining Power: <span className="font-mono">{Math.floor(state.miningPower)}</span></div>
+            <div>Mining Power: <span className="font-mono tabular-nums">{Math.floor(state.miningPower)}</span></div>
             <div>Balance: <span className="font-mono">{Math.floor(state.balance)}</span> $DUCAT</div>
             <div>Kingdom Level: {state.kingdomLevel}</div>
           </div>

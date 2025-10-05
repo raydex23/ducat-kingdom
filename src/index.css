@@ -6,3 +6,6 @@
 body {
   @apply bg-gradient-to-b from-gray-100 to-yellow-50 text-gray-800;
 }
+/* polish */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+html, body { scroll-behavior: smooth; }
