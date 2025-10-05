@@ -74,40 +74,25 @@ export default function App() {
     });
   }
 
-function KingdomImage({ level }) {
-  const levelImages = {
-    1: '/images/kingdom_lvl1.png',
-    2: '/images/kingdom_lvl2.png',
-    3: '/images/kingdom_lvl3.png',
-    4: '/images/kingdom_lvl4.png',
-    5: '/images/kingdom_lvl5.png',
-  }
-
-  const imgSrc = levelImages[Math.min(level, 5)]
-  const [loaded, setLoaded] = React.useState(false)
-
-  React.useEffect(() => { setLoaded(false) }, [imgSrc])
+const KingdomImage = React.memo(function KingdomImage({ level }) {
+  const clamped = Math.min(level, 5)
+  const imgSrc = `/images/kingdom_lvl${clamped}.png`
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] bg-gradient-to-b from-amber-50 to-amber-100 border border-amber-200">
-      {/* delikatny „glow” */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_30%_10%,rgba(255,255,255,.6),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,.35),transparent_40%)]" />
       <img
-        key={imgSrc}
         src={imgSrc}
         alt={`Kingdom level ${level}`}
-        onLoad={() => setLoaded(true)}
-        className={
-          "w-full h-64 md:h-80 object-cover transition-opacity duration-700 ease-out " +
-          (loaded ? "opacity-100" : "opacity-0")
-        }
+        className="w-full h-64 md:h-80 object-cover"
+        loading="eager"
+        decoding="async"
       />
       <div className="absolute bottom-2 right-3 text-xs md:text-sm text-white/95 bg-black/40 backdrop-blur px-2 py-1 rounded">
         Level {level}
       </div>
     </div>
   )
-}
+})
 
   function upgradeKingdom() {
     if (state.balance < 1000) return alert('Not enough $DUCAT');
