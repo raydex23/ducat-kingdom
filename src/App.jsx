@@ -34,18 +34,21 @@ function usePersistedState(key, defaultVal) {
 
 function BrandHeader() {
   return (
-    <header className="mb-5 md:mb-6">
-      <div className="flex items-center gap-3">
+    <header className="mb-8 md:mb-10 text-center">
+      <div className="inline-flex flex-col items-center">
         <img
-          src="images/logo.png"
+          src="/images/logo.png"
           alt="Crownforge"
-          className="h-10 md:h-12 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+          className="h-24 md:h-32 w-auto drop-shadow-[0_4px_15px_rgba(0,0,0,0.25)]"
           loading="eager"
           decoding="async"
         />
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          Crownforge — Beta
+        <h1 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
+          Crownforge <span className="text-amber-600">— Beta</span>
         </h1>
+        <p className="text-sm md:text-base text-gray-500 mt-1">
+          Build your realm, forge your wealth, rule the kingdom.
+        </p>
       </div>
     </header>
   );
