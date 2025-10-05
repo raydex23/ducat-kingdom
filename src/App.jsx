@@ -129,6 +129,7 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
   const nextHalving = Math.max(0, halvingInterval - (now - state.startTime));
 
   return (
+  <div className="p-6">
     <BrandHeader />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="md:col-span-2 space-y-4">
@@ -196,5 +197,7 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
         </div>
       </aside>
     </div>
+  </div>
+  </div>
   );
 }
