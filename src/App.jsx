@@ -220,3 +220,38 @@ export default function App() {
             <h3 className="font-semibold">Your Mines</h3>
             {state.buildings.length === 0 && (
               <div className="text-sm text-gray-500">No mines owned</div>
+            )}
+            {state.buildings.map(b => (
+              <div key={b.id} className="flex justify-between p-2 border-b">
+                <div>
+                  {b.name} x{b.count}{' '}
+                  <span className="text-xs text-gray-400">({b.rarity})</span>
+                </div>
+                <div className="font-mono">+{b.basePower * b.count} MP</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside className="md:sticky md:top-6 h-fit">
+          <div className="p-4 bg-white rounded-lg shadow mb-4">
+            <h4 className="font-semibold">Statistics</h4>
+            <div className="mt-2 text-sm">
+              <div>
+                Mining Power:{' '}
+                <span className="font-mono tabular-nums">
+                  {Math.floor(state.miningPower)}
+                </span>
+              </div>
+              <div>
+                Balance:{' '}
+                <span className="font-mono">{Math.floor(state.balance)}</span> $DUCAT
+              </div>
+              <div>Kingdom Level: {state.kingdomLevel}</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
