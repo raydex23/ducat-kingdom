@@ -74,6 +74,31 @@ export default function App() {
     });
   }
 
+  function KingdomImage({ level }) {
+  const levelImages = {
+    1: '/images/kingdom_lvl1.png',
+    2: '/images/kingdom_lvl2.png',
+    3: '/images/kingdom_lvl3.png',
+    4: '/images/kingdom_lvl4.png',
+    5: '/images/kingdom_lvl5.png',
+  }
+
+  const imgSrc = levelImages[Math.min(level, 5)]
+
+  return (
+    <div className="relative w-full overflow-hidden rounded-xl shadow-lg bg-gray-100">
+      <img
+        src={imgSrc}
+        alt={`Kingdom level ${level}`}
+        className="w-full h-64 object-cover transition-all duration-700"
+      />
+      <div className="absolute bottom-2 right-3 text-white text-sm bg-black/40 px-2 py-1 rounded">
+        Level {level}
+      </div>
+    </div>
+  )
+}
+
   function upgradeKingdom() {
     if (state.balance < 1000) return alert('Not enough $DUCAT');
     setState(st => ({ ...st, balance: st.balance - 1000, kingdomLevel: st.kingdomLevel + 1, miningPower: st.miningPower + 10, lastUpgradeAt: now }));
@@ -96,6 +121,7 @@ export default function App() {
           <div className="flex justify-between items-start">
             <div>
               <h2 className="font-semibold text-xl">Kingdom Status</h2>
+              <KingdomImage level={state.kingdomLevel} />
               <p className="text-sm text-gray-600">Level: {state.kingdomLevel}</p>
               <p className="text-sm text-gray-600">Mining Power: {Math.floor(state.miningPower)}</p>
             </div>
