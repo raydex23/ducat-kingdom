@@ -37,7 +37,7 @@ function BrandHeader() {
     <header className="mb-5 md:mb-6">
       <div className="flex items-center gap-3">
         <img
-          src="/brand/crownforge-logo.png"
+          src="logo.png"
           alt="Crownforge"
           className="h-10 md:h-12 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
           loading="eager"
