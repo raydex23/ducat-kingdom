@@ -198,6 +198,5 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
       </aside>
     </div>
   </div>
-  </div>
   );
 }
