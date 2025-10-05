@@ -131,6 +131,7 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
   return (
   <div className="p-6">
     <BrandHeader />
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="md:col-span-2 space-y-4">
         <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
@@ -148,10 +149,23 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
           </div>
 
           <div className="mt-4">
-            <button onClick={upgradeKingdom} className="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow transition-all">Upgrade Kingdom (1000 $DUCAT)</button>
-            <button onClick={reset} className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/15 text-red-700 border border-red-200 transition">Reset</button>
+            <button
+              onClick={upgradeKingdom}
+              className="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow transition-all"
+            >
+              Upgrade Kingdom (1000 $DUCAT)
+            </button>
+            <button
+              onClick={reset}
+              className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/15 text-red-700 border border-red-200 transition"
+            >
+              Reset
+            </button>
           </div>
-          <div className="mt-2 text-sm text-gray-500">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</div>
+
+          <div className="mt-2 text-sm text-gray-500">
+            Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h
+          </div>
         </div>
 
         <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
@@ -161,12 +175,19 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
               <div key={b.id} className="p-3 border rounded">
                 <div className="flex justify-between items-center">
                   <div>
-                    <div className="font-semibold">{b.name} <span className="text-xs text-gray-500">({b.rarity})</span></div>
+                    <div className="font-semibold">
+                      {b.name} <span className="text-xs text-gray-500">({b.rarity})</span>
+                    </div>
                     <div className="text-sm text-gray-500">Power +{b.basePower}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono">{b.price} $DUCAT</div>
-                    <button onClick={() => buyBuilding(b.id)} className="mt-2 px-3 py-1.5 rounded-xl bg-sky-500/90 hover:bg-sky-600 text-white shadow-sm transition-all">Buy</button>
+                    <button
+                      onClick={() => buyBuilding(b.id)}
+                      className="mt-2 px-3 py-1.5 rounded-xl bg-sky-500/90 hover:bg-sky-600 text-white shadow-sm transition-all"
+                    >
+                      Buy
+                    </button>
                   </div>
                 </div>
               </div>
@@ -176,10 +197,15 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
 
         <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
           <h3 className="font-semibold">Your Mines</h3>
-          {state.buildings.length === 0 && <div className="text-sm text-gray-500">No mines owned</div>}
+          {state.buildings.length === 0 && (
+            <div className="text-sm text-gray-500">No mines owned</div>
+          )}
           {state.buildings.map(b => (
             <div key={b.id} className="flex justify-between p-2 border-b">
-              <div>{b.name} x{b.count} <span className="text-xs text-gray-400">({b.rarity})</span></div>
+              <div>
+                {b.name} x{b.count}{' '}
+                <span className="text-xs text-gray-400">({b.rarity})</span>
+              </div>
               <div className="font-mono">+{b.basePower * b.count} MP</div>
             </div>
           ))}
@@ -190,13 +216,20 @@ const KingdomImage = React.memo(function KingdomImage({ level }) {
         <div className="p-4 bg-white rounded-lg shadow mb-4">
           <h4 className="font-semibold">Statistics</h4>
           <div className="mt-2 text-sm">
-            <div>Mining Power: <span className="font-mono tabular-nums">{Math.floor(state.miningPower)}</span></div>
-            <div>Balance: <span className="font-mono">{Math.floor(state.balance)}</span> $DUCAT</div>
+            <div>
+              Mining Power:{' '}
+              <span className="font-mono tabular-nums">
+                {Math.floor(state.miningPower)}
+              </span>
+            </div>
+            <div>
+              Balance: <span className="font-mono">{Math.floor(state.balance)}</span>{' '}
+              $DUCAT
+            </div>
             <div>Kingdom Level: {state.kingdomLevel}</div>
           </div>
         </div>
       </aside>
     </div>
   </div>
-  );
-}
+);
