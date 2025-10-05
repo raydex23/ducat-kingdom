@@ -41,48 +41,48 @@ function BrandHeader() {
           <img
             src="/images/logo.png"
             alt="Crownforge"
-            className="h-14 md:h-16 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
+            className="h-14 md:h-16 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]"
             loading="eager"
             decoding="async"
           />
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
-            Crownforge <span className="text-amber-600">— Beta</span>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-100">
+            Crownforge <span className="text-amber-400">— Beta</span>
           </h1>
         </div>
 
         {/* MENU */}
-        <nav className="flex gap-4 md:gap-6 text-sm md:text-base font-medium text-gray-700">
+        <nav className="flex gap-4 md:gap-6 text-sm md:text-base font-medium text-gray-300">
           <a
             href="https://jup.ag/swap/SOL-DUCAT"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-amber-600 transition-colors"
+            className="hover:text-amber-400 transition-colors"
           >
             Trade $DUCAT
           </a>
           <a
             href="#economy"
-            className="hover:text-amber-600 transition-colors"
+            className="hover:text-amber-400 transition-colors"
           >
             Economy
           </a>
           <a
             href="#roadmap"
-            className="hover:text-amber-600 transition-colors"
+            className="hover:text-amber-400 transition-colors"
           >
             Roadmap
           </a>
           <a
             href="#community"
-            className="hover:text-amber-600 transition-colors"
+            className="hover:text-amber-400 transition-colors"
           >
             Community
           </a>
         </nav>
       </div>
 
-      {/* opcjonalna linia pod menu */}
-      <div className="mt-4 border-t border-gray-200" />
+      {/* linia pod menu */}
+      <div className="mt-4 border-t border-[#3b332b]" />
     </header>
   );
 }
@@ -138,12 +138,13 @@ export default function App() {
     });
   }
 
+  // Mroczniejsza oprawa ramki sceny
   const KingdomImage = React.memo(function KingdomImage({ level }) {
     const clamped = Math.min(level, 5);
     const imgSrc = `/images/kingdom_lvl${clamped}.png`;
 
     return (
-      <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] bg-gradient-to-b from-amber-50 to-amber-100 border border-amber-200">
+      <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.55)] bg-gradient-to-b from-[#2a2520] to-[#1f1a16] border border-[#3b332b]">
         <img
           src={imgSrc}
           alt={`Kingdom level ${level}`}
@@ -151,7 +152,9 @@ export default function App() {
           loading="eager"
           decoding="async"
         />
-        <div className="absolute bottom-2 right-3 text-xs md:text-sm text-white/95 bg-black/40 backdrop-blur px-2 py-1 rounded">
+        {/* subtelna winieta */}
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(120%_80%_at_50%_10%,transparent,rgba(0,0,0,0.35))]" />
+        <div className="absolute bottom-2 right-3 text-xs md:text-sm text-amber-200 bg-black/40 backdrop-blur px-2 py-1 rounded">
           Level {level}
         </div>
       </div>
@@ -180,26 +183,27 @@ export default function App() {
   const nextHalving = Math.max(0, halvingInterval - (now - state.startTime));
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-200 p-6">
       <BrandHeader />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-2 space-y-4">
-          <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
+          {/* STATUS */}
+          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="font-semibold text-xl">Kingdom Status</h2>
+                <h2 className="font-semibold text-xl text-amber-400">Kingdom Status</h2>
                 <div className="mt-3">
                   <KingdomImage level={state.kingdomLevel} />
                 </div>
-                <p className="mt-3 text-sm text-gray-600">Level: {state.kingdomLevel}</p>
-                <p className="text-sm text-gray-600">
+                <p className="mt-3 text-sm text-gray-300">Level: {state.kingdomLevel}</p>
+                <p className="text-sm text-gray-300">
                   Mining Power: {Math.floor(state.miningPower)}
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-sm text-gray-500">Balance</div>
-                <div className="font-mono text-2xl tabular-nums">
+                <div className="text-sm text-gray-400">Balance</div>
+                <div className="font-mono text-2xl tabular-nums text-amber-300">
                   {Math.floor(state.balance)} $DUCAT
                 </div>
               </div>
@@ -208,40 +212,42 @@ export default function App() {
             <div className="mt-4">
               <button
                 onClick={upgradeKingdom}
-                className="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow transition-all"
+                className="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black/90 hover:text-black shadow-sm hover:shadow transition-all"
               >
                 Upgrade Kingdom (1000 $DUCAT)
               </button>
               <button
                 onClick={reset}
-                className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/15 text-red-700 border border-red-200 transition"
+                className="ml-3 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition"
               >
                 Reset
               </button>
             </div>
 
-            <div className="mt-2 text-sm text-gray-500">
+            <div className="mt-2 text-sm text-gray-400">
               Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h
             </div>
           </div>
 
-          <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
-            <h3 className="font-semibold">Available Mines</h3>
+          {/* AVAILABLE MINES */}
+          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+            <h3 className="font-semibold text-amber-300">Available Mines</h3>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
               {BUILDINGS.map(b => (
-                <div key={b.id} className="p-3 border rounded">
+                <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60">
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="font-semibold">
-                        {b.name} <span className="text-xs text-gray-500">({b.rarity})</span>
+                      <div className="font-semibold text-gray-100">
+                        {b.name}{' '}
+                        <span className="text-xs text-gray-400">({b.rarity})</span>
                       </div>
-                      <div className="text-sm text-gray-500">Power +{b.basePower}</div>
+                      <div className="text-sm text-gray-400">Power +{b.basePower}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-mono">{b.price} $DUCAT</div>
+                      <div className="font-mono text-gray-200">{b.price} $DUCAT</div>
                       <button
                         onClick={() => buyBuilding(b.id)}
-                        className="mt-2 px-3 py-1.5 rounded-xl bg-sky-500/90 hover:bg-sky-600 text-white shadow-sm transition-all"
+                        className="mt-2 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm transition-all"
                       >
                         Buy
                       </button>
@@ -252,38 +258,40 @@ export default function App() {
             </div>
           </div>
 
-          <div className="p-4 md:p-5 bg-white/90 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100">
-            <h3 className="font-semibold">Your Mines</h3>
+          {/* YOUR MINES */}
+          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+            <h3 className="font-semibold text-amber-300">Your Mines</h3>
             {state.buildings.length === 0 && (
-              <div className="text-sm text-gray-500">No mines owned</div>
+              <div className="text-sm text-gray-400">No mines owned</div>
             )}
             {state.buildings.map(b => (
-              <div key={b.id} className="flex justify-between p-2 border-b">
-                <div>
+              <div key={b.id} className="flex justify-between p-2 border-b border-[#3b332b]">
+                <div className="text-gray-200">
                   {b.name} x{b.count}{' '}
                   <span className="text-xs text-gray-400">({b.rarity})</span>
                 </div>
-                <div className="font-mono">+{b.basePower * b.count} MP</div>
+                <div className="font-mono text-amber-200">+{b.basePower * b.count} MP</div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* STATS */}
         <aside className="md:sticky md:top-6 h-fit">
-          <div className="p-4 bg-white rounded-lg shadow mb-4">
-            <h4 className="font-semibold">Statistics</h4>
+          <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] mb-4">
+            <h4 className="font-semibold text-amber-300">Statistics</h4>
             <div className="mt-2 text-sm">
-              <div>
+              <div className="text-gray-300">
                 Mining Power:{' '}
-                <span className="font-mono tabular-nums">
+                <span className="font-mono tabular-nums text-gray-100">
                   {Math.floor(state.miningPower)}
                 </span>
               </div>
-              <div>
+              <div className="text-gray-300">
                 Balance:{' '}
-                <span className="font-mono">{Math.floor(state.balance)}</span> $DUCAT
+                <span className="font-mono text-amber-200">{Math.floor(state.balance)}</span> $DUCAT
               </div>
-              <div>Kingdom Level: {state.kingdomLevel}</div>
+              <div className="text-gray-300">Kingdom Level: {state.kingdomLevel}</div>
             </div>
           </div>
         </aside>
