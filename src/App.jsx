@@ -1,7 +1,7 @@
-import WalletConnectionProvider from "./WalletConnectionProvider";
 import { Routes, Route } from "react-router-dom";
 import Game from "./Game";
 import Ranking from "./Ranking";
+import WalletConnectionProvider from "./WalletConnectionProvider";
 
 export default function App() {
   return (
