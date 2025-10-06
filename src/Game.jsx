@@ -73,7 +73,6 @@ function BrandHeader() {
   <a href="/ranking" className="hover:text-amber-400 transition">Ranking</a>
   <a href="https://jup.ag/swap/SOL-CROWN" target="_blank" className="hover:text-amber-400 transition">Trade $CROWN</a>
   <CrownBalance />
-  <WalletMultiButton />
 </nav>
 
           {/* CONNECT WALLET BUTTON */}
