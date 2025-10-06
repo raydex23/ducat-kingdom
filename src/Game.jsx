@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const DEFAULT_STATE = {
   balance: 5000,
@@ -49,7 +50,7 @@ function usePersistedState(key, defaultVal) {
 
 function BrandHeader() {
   return (
-    <header className="mb-8 md:mb-10">
+    <header className="mb-8 md:mb-10 border-b border-[#3b332b]/70 pb-4">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         {/* LOGO + NAME */}
         <div className="flex items-center gap-3">
@@ -65,22 +66,28 @@ function BrandHeader() {
           </h1>
         </div>
 
-        {/* MENU */}
-        <nav className="flex gap-4 md:gap-6 text-sm md:text-base font-medium text-gray-300">
-          <a
-            href="https://jup.ag/swap/SOL-DUCAT"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-amber-400 transition-colors"
-          >
-            Trade $DUCAT
-          </a>
-          <a href="#economy" className="hover:text-amber-400 transition-colors">Economy</a>
-          <a href="#roadmap"  className="hover:text-amber-400 transition-colors">Roadmap</a>
-          <Link to="/ranking" className="hover:text-amber-400 transition-colors">Ranking</Link>
-        </nav>
+        {/* MENU + WALLET */}
+        <div className="flex items-center gap-5 md:gap-6">
+          <nav className="flex gap-4 md:gap-6 text-sm md:text-base font-medium text-gray-300">
+            <a
+              href="https://jup.ag/swap/SOL-DUCAT"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-amber-400 transition-colors"
+            >
+              Trade $DUCAT
+            </a>
+            <a href="#economy" className="hover:text-amber-400 transition-colors">Economy</a>
+            <a href="#roadmap" className="hover:text-amber-400 transition-colors">Roadmap</a>
+            <a href="/ranking" className="hover:text-amber-400 transition-colors">Ranking</a>
+          </nav>
+
+          {/* CONNECT WALLET BUTTON */}
+          <div className="ml-2">
+            <WalletMultiButton className="!bg-amber-600 hover:!bg-amber-700 !text-black font-semibold !rounded-xl !px-4 !py-2 shadow-sm hover:shadow transition-all border border-amber-700/50" />
+          </div>
+        </div>
       </div>
-      <div className="mt-4 border-t border-[#3b332b]" />
     </header>
   );
 }
