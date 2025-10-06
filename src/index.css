@@ -2,13 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional custom overrides */
-body {
-  @apply bg-gradient-to-b from-gray-100 to-yellow-50 text-gray-800;
+/* ===== Gothic Crownforge Global Theme ===== */
+
+/* import gotyckich fontów */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Lora:wght@400;600&display=swap');
+
+/* globalny wygląd */
+html, body {
+  @apply bg-[#0e0b09] text-gray-200 min-h-screen;
+  font-family: 'Lora', serif;
+  scroll-behavior: smooth;
+  background-image: radial-gradient(circle at 30% 10%, rgba(255, 220, 150, 0.05), transparent 70%),
+                    radial-gradient(circle at 70% 90%, rgba(255, 200, 100, 0.03), transparent 80%);
+  background-attachment: fixed;
 }
-/* polish */
+
+h1, h2, h3, h4 {
+  font-family: 'Cinzel Decorative', serif;
+  letter-spacing: 0.03em;
+  color: #f1c47b;
+}
+
+a {
+  color: #f1c47b;
+  transition: color 0.2s ease, text-shadow 0.3s ease;
+}
+a:hover {
+  color: #ffe4a6;
+  text-shadow: 0 0 8px rgba(255, 210, 120, 0.4);
+}
+
+/* przyciski */
+button {
+  font-family: 'Cinzel Decorative', serif;
+  letter-spacing: 0.02em;
+}
+
+/* złote akcenty */
+.text-amber-300, .text-amber-400, .text-amber-500 {
+  text-shadow: 0 0 6px rgba(255, 200, 100, 0.4);
+}
+
+/* boxy i panele */
+.bg-gothic-panel {
+  @apply bg-[#1b1612]/80 backdrop-blur border border-[#3b2c1f] shadow-[0_0_25px_rgba(0,0,0,0.7)] rounded-2xl;
+}
+
+/* drop shadow subtelny */
+.drop-shadow-soft { filter: drop-shadow(0 2px 8px rgba(0,0,0,.25)); }
+
+/* liczby monospaced */
 .tabular-nums { font-variant-numeric: tabular-nums; }
-html, body { scroll-behavior: smooth; }
-/* Logo polish */
-:root { --ring: 0 0% 0% / .12 }
-.drop-shadow-soft { filter: drop-shadow(0 2px 8px rgba(0,0,0,.12)); }
+
+/* smukłe scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5c4b2a, #2f2615);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #7b6436, #3a2d18);
+}
