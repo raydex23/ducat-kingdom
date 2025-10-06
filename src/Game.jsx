@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 const DEFAULT_STATE = {
   balance: 5000,
@@ -76,7 +77,7 @@ function BrandHeader() {
           </a>
           <a href="#economy" className="hover:text-amber-400 transition-colors">Economy</a>
           <a href="#roadmap"  className="hover:text-amber-400 transition-colors">Roadmap</a>
-          <a href="#community"className="hover:text-amber-400 transition-colors">Community</a>
+          <Link to="/ranking" className="hover:text-amber-400 transition-colors">Ranking</Link>
         </nav>
       </div>
       <div className="mt-4 border-t border-[#3b332b]" />
