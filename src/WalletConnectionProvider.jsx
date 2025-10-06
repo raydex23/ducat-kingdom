@@ -27,9 +27,6 @@ export default function WalletConnectionProvider({ children }) {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div className="flex justify-end mb-4">
-  <WalletMultiButton className="wallet-adapter-button-trigger !rounded-xl !bg-amber-600 !text-black font-semibold hover:!bg-amber-700 transition-all" />
-</div>
           {children}
         </WalletModalProvider>
       </WalletProvider>
