@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import CrownBalance from "./components/CrownBalance";
+import CrownFaucet from "./components/CrownFaucet";
 
 const DEFAULT_STATE = {
   balance: 5000,
