@@ -28,13 +28,19 @@ export default async function handler(req, res) {
     const treasuryATA = await getOrCreateAssociatedTokenAccount(connection, treasury, mint, treasury.publicKey);
 
     // 🔁 transfer tokenów
+    const rawAmount = Math.floor(amount * 10 ** DECIMALS);
+
+    if (rawAmount <= 0) {
+      return res.status(400).json({ error: "Invalid amount" });
+    }
+
     const txSignature = await transfer(
       connection,
       treasury,
       treasuryATA.address,
       receiverATA.address,
       treasury.publicKey,
-      amount * 10 ** DECIMALS
+      rawAmount
     );
 
     console.log("✅ Sent", amount, "$CROWN to", wallet, txSignature);
