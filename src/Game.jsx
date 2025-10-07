@@ -70,10 +70,10 @@ function BrandHeader() {
         {/* MENU + WALLET */}
         <div className="flex items-center gap-5 md:gap-6">
           <nav className="flex gap-4 md:gap-6 items-center text-sm md:text-base font-medium text-gray-300">
-  <a href="/ranking" className="hover:text-amber-400 transition">Ranking</a>
-  <a href="https://jup.ag/swap/SOL-CROWN" target="_blank" className="hover:text-amber-400 transition">Trade $CROWN</a>
-  <CrownBalance />
-</nav>
+          <a href="/ranking" className="hover:text-amber-400 transition">Ranking</a>
+          <a href="https://jup.ag/swap/SOL-CROWN" target="_blank" className="hover:text-amber-400 transition">Trade $CROWN</a>
+          <CrownBalance />
+          </nav>
 
           {/* CONNECT WALLET BUTTON */}
           <div className="ml-2">
@@ -192,6 +192,7 @@ export default function Game() {
     if (confirm('Reset game data?')) {
       localStorage.removeItem('ducat_game_en');
       location.reload();
+      <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
     }
   }
 
