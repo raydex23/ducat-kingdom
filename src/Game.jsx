@@ -139,7 +139,7 @@ export default function Game() {
     }
 
     // środki
-    if (state.balance < t.price) return alert('Not enough $DUCAT');
+    if (state.balance < t.price) return alert('Not enough $CROWN');
 
     setState(st => {
       const newBuildings = [...st.buildings];
@@ -179,7 +179,7 @@ export default function Game() {
   // upgrade królestwa — dynamiczny koszt x3
   const upgradeCost = getUpgradeCost(state.kingdomLevel);
   function upgradeKingdom() {
-    if (state.balance < upgradeCost) return alert('Not enough $DUCAT');
+    if (state.balance < upgradeCost) return alert('Not enough $CROWN');
     setState(st => ({
       ...st,
       balance: st.balance - upgradeCost,
@@ -222,7 +222,7 @@ export default function Game() {
               <div className="text-right">
                 <div className="text-sm text-gray-400">Balance</div>
                 <div className="font-mono text-2xl tabular-nums text-amber-300">
-                  {Math.floor(state.balance)} $DUCAT
+                  {Math.floor(state.balance)} $CROWN
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ export default function Game() {
                 onClick={upgradeKingdom}
                 className="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black/90 hover:text-black shadow-sm hover:shadow transition-all"
               >
-                Upgrade Kingdom ({upgradeCost} $DUCAT)
+                Upgrade Kingdom ({upgradeCost} $CROWN)
               </button>
               <button
                 onClick={reset}
@@ -274,7 +274,7 @@ export default function Game() {
                         )}
                       </div>
                       <div className="text-right">
-                        <div className="font-mono text-gray-200">{b.price} $DUCAT</div>
+                        <div className="font-mono text-gray-200">{b.price} $CROWN</div>
                         <button
                           onClick={() => canBuy ? buyBuilding(b.id) : null}
                           disabled={!canBuy}
@@ -290,7 +290,7 @@ export default function Game() {
                               : usedSlots >= maxSlots
                               ? "Mine limit reached — upgrade your kingdom"
                               : state.balance < b.price
-                              ? "Not enough $DUCAT"
+                              ? "Not enough $CROWN"
                               : "Buy"
                           }
                         >
