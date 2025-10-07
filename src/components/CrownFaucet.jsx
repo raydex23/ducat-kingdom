@@ -19,7 +19,6 @@ export default function CrownFaucet({ balance, resetBalance }) {
       const data = await res.json();
 
       if (data.success) {
-        alert(`✅ Claimed ${balance} $CROWN!\nTx: ${data.signature}`);
         alert(`✅ Claimed ${data.payout} $CROWN\n🔥 Burned ${data.burned} $CROWN`);
         resetBalance(); // wyzeruj lokalny stan gry
       } else {

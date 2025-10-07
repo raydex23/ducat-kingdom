@@ -45,7 +45,7 @@ export default function CrownBalance() {
 
   return (
     <div className="ml-4 text-sm text-amber-400">
-      {balance === null ? "Loading..." : `${balance.toFixed(2)} $CROWN`}
+      {balance === null ? "Loading..." : `Wallet: ${balance.toFixed(2)} $CROWN`}
     </div>
   );
 }
