@@ -192,7 +192,6 @@ export default function Game() {
     if (confirm('Reset game data?')) {
       localStorage.removeItem('ducat_game_en');
       location.reload();
-      <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
     }
   }
 
@@ -240,6 +239,12 @@ export default function Game() {
               >
                 Reset
               </button>
+              {/* 👇 TU DODAJEMY przycisk claim */}
+              <CrownFaucet
+                balance={state.balance}
+                resetBalance={() => setState(st => ({ ...st, balance: 0 }))}
+              />
+
               <span className="text-xs text-gray-500">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</span>
             </div>
           </div>
