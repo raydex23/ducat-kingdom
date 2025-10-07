@@ -1,53 +1,75 @@
-import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import { getOrCreateAssociatedTokenAccount, transfer, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import bs58 from "bs58";
-import fs from "fs";
+import { Connection, PublicKey, Keypair } from "@solana/web3.js";
+import { getOrCreateAssociatedTokenAccount, transfer, burnChecked } from "@solana/spl-token";
 
+const RPC_URL = "https://api.devnet.solana.com";
+const connection = new Connection(RPC_URL, "confirmed");
+
+// Ustaw swój mint
 const MINT_ADDRESS = "FD2ZoUvLtSNm4tUAdPN62LicLECoa7dmP5fDj4oTvbdq";
-const DECIMALS = 6;
+const DECIMALS = 6; // 6 dla SPL tokenów
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
-
   try {
-    const { wallet, amount } = req.body;
-    if (!wallet || !amount) return res.status(400).json({ error: "Missing parameters" });
+    if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-    // 🔐 Ładujemy klucz skarbnika (Twoje crown-keypair.json)
+    const { wallet, amount } = req.body;
+    if (!wallet || !amount) return res.status(400).json({ error: "Missing wallet or amount" });
+
+    // 🔒 zaokrąglamy i odrzucamy wartości z przecinkami
+    const floored = Math.floor(amount);
+    if (floored <= 0) return res.status(400).json({ error: "Invalid amount" });
+
+    // 🔥 burn 2%
+    const burnPortion = Math.floor(floored * 0.02);
+    const payout = floored - burnPortion;
+
+    // łączymy się z treasury (twój keypair z ENV)
     const secret = JSON.parse(process.env.CROWN_KEYPAIR);
     const treasury = Keypair.fromSecretKey(Uint8Array.from(secret));
 
-    const connection = new Connection("https://api.devnet.solana.com", "confirmed");
     const mint = new PublicKey(MINT_ADDRESS);
-    const receiver = new PublicKey(wallet);
+    const userWallet = new PublicKey(wallet);
 
-    // 🪙 znajdź lub utwórz konto tokenowe dla odbiorcy
-    const receiverATA = await getOrCreateAssociatedTokenAccount(connection, treasury, mint, receiver);
-
-    // ⚙️ znajdź lub utwórz konto tokenowe treasury
+    // tworzymy ATA
     const treasuryATA = await getOrCreateAssociatedTokenAccount(connection, treasury, mint, treasury.publicKey);
+    const userATA = await getOrCreateAssociatedTokenAccount(connection, treasury, mint, userWallet);
 
-    // 🔁 transfer tokenów
-    const rawAmount = Math.floor(amount * 10 ** DECIMALS);
+    // przeliczamy kwoty na lamporty tokenowe
+    const payoutLamports = BigInt(payout) * BigInt(10 ** DECIMALS);
+    const burnLamports = BigInt(burnPortion) * BigInt(10 ** DECIMALS);
 
-    if (rawAmount <= 0) {
-      return res.status(400).json({ error: "Invalid amount" });
-    }
-
-    const txSignature = await transfer(
+    // 🔁 transfer 98% do gracza
+    await transfer(
       connection,
       treasury,
       treasuryATA.address,
-      receiverATA.address,
+      userATA.address,
       treasury.publicKey,
-      rawAmount
+      payoutLamports
     );
 
-    console.log("✅ Sent", amount, "$CROWN to", wallet, txSignature);
-    res.status(200).json({ success: true, signature: txSignature });
+    // 🔥 burn 2% z konta treasury
+    await burnChecked(
+      connection,
+      treasury,
+      treasuryATA.address,
+      mint,
+      treasury.publicKey,
+      burnLamports,
+      DECIMALS
+    );
 
+    console.log(`💸 Sent ${payout} $CROWN, 🔥 Burned ${burnPortion} $CROWN`);
+
+    return res.status(200).json({
+      success: true,
+      payout,
+      burned: burnPortion,
+      tx: "done",
+      message: `✅ Claimed ${payout} $CROWN, 🔥 Burned ${burnPortion} $CROWN`
+    });
   } catch (err) {
-    console.error("❌ Faucet error:", err);
-    res.status(500).json({ error: err.message });
+    console.error("Claim error:", err);
+    return res.status(500).json({ error: err.message });
   }
 }
