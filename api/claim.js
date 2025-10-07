@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     if (!wallet || !amount) return res.status(400).json({ error: "Missing parameters" });
 
     // 🔐 Ładujemy klucz skarbnika (Twoje crown-keypair.json)
-    const secret = JSON.parse(fs.readFileSync("crown-keypair.json", "utf-8"));
+    const secret = JSON.parse(process.env.CROWN_KEYPAIR);
     const treasury = Keypair.fromSecretKey(Uint8Array.from(secret));
 
     const connection = new Connection("https://api.devnet.solana.com", "confirmed");
