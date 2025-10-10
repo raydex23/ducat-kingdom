@@ -21,12 +21,11 @@ const BUILDINGS = [
   { id: 'diamond', name: 'Diamond Mine', price: 6000, basePower: 50, rarity: 'legendary' },
 ];
 
-// --- helpery ekonomiczne ---
-function maxMinesForLevel(level){ return 2 + 2 * (level - 1) } // L1=2, L2=4, L3=6...
+function maxMinesForLevel(level){ return 2 + 2 * (level - 1) }
 function requiredLevelFor(buildingId){
   if(buildingId === 'gold') return 2;
   if(buildingId === 'diamond') return 3;
-  return 1; // coal & iron
+  return 1;
 }
 function isUnlocked(buildingId, level){ return level >= requiredLevelFor(buildingId) }
 function getUpgradeCost(currentLevel){
@@ -92,7 +91,6 @@ export default function Game() {
     return () => clearInterval(t);
   }, []);
 
-  // realtime przyrost salda: 0.1 * MiningPower / s
   useEffect(() => {
     const gain = state.miningPower / 10;
     const timer = setInterval(() => {
@@ -101,7 +99,6 @@ export default function Game() {
     return () => clearInterval(timer);
   }, [state.miningPower, setState]);
 
-  // halving co 7 dni
   useEffect(() => {
     const halvingInterval = 7 * 24 * 60 * 60 * 1000;
     const t = setInterval(() => {
@@ -121,19 +118,15 @@ export default function Game() {
   function buyBuilding(id) {
     const t = BUILDINGS.find(b => b.id === id);
     if (!t) return;
-
     if (!isUnlocked(t.id, state.kingdomLevel)) {
       return alert(`Locked: ${t.name} unlocks at Kingdom Level ${requiredLevelFor(t.id)}.`);
     }
-
     const usedSlots = state.buildings.reduce((sum, b) => sum + (b.count || 0), 0);
     const maxSlots = maxMinesForLevel(state.kingdomLevel);
     if (usedSlots >= maxSlots) {
       return alert(`Mine limit reached: ${usedSlots}/${maxSlots}. Upgrade your kingdom to build more.`);
     }
-
     if (state.balance < t.price) return alert('Not enough $CROWN');
-
     setState(st => {
       const newBuildings = [...st.buildings];
       const idx = newBuildings.findIndex(b => b.id === id);
@@ -153,17 +146,8 @@ export default function Game() {
     const imgSrc = `/images/kingdom_lvl${clamped}.png`;
     return (
       <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.55)] bg-gradient-to-b from-[#2a2520] to-[#1f1a16] border border-[#3b332b]">
-        <img
-          src={imgSrc}
-          alt={`Kingdom level ${level}`}
-          className="w-full h-64 md:h-80 object-cover"
-          loading="eager"
-          decoding="async"
-        />
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(120%_80%_at_50%_10%,transparent,rgba(0,0,0,0.35))]" />
-        <div className="absolute bottom-2 right-3 text-xs md:text-sm text-amber-200 bg-black/40 backdrop-blur px-2 py-1 rounded">
-          Level {level}
-        </div>
+        <img src={imgSrc} alt={`Kingdom level ${level}`} className="w-full h-64 md:h-80 object-cover" loading="eager" decoding="async" />
+        <div className="absolute bottom-2 right-3 text-xs md:text-sm text-amber-200 bg-black/40 backdrop-blur px-2 py-1 rounded">Level {level}</div>
       </div>
     );
   });
@@ -201,12 +185,27 @@ export default function Game() {
         <div className="md:col-span-2 space-y-4">
           {/* WORLD NAVIGATION */}
           <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl border border-[#3b332b] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <h2 className="font-semibold text-xl text-amber-400 mb-3">World Navigation</h2>
+            <h2 className="font-semibold text-xl text-amber-400 mb-3 text-center">World Navigation</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <button className="px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] text-amber-300 border border-[#5a4a3b]/60 shadow-sm transition">Tavern</button>
-              <button className="px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] text-pink-300 border border-[#5a4a3b]/60 shadow-sm transition">Pleasure House</button>
-              <button className="px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] text-blue-300 border border-[#5a4a3b]/60 shadow-sm transition">Alliance</button>
-              <button className="px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] text-red-300 border border-[#5a4a3b]/60 shadow-sm transition">Raids</button>
+              {[
+                { id: 'tavern', label: 'Tavern', color: 'text-amber-300' },
+                { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300' },
+                { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
+                { id: 'raids', label: 'Raids', color: 'text-red-300' },
+              ].map(b => (
+                <div key={b.id} className="flex flex-col items-center">
+                  <img
+                    src={`/images/world/${b.id}.png`}
+                    alt={b.label}
+                    className="w-20 h-20 object-cover rounded-xl border border-[#3b332b] mb-2 hover:scale-105 transition-transform duration-200"
+                  />
+                  <button
+                    className={`w-full px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
+                  >
+                    {b.label}
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -277,10 +276,7 @@ export default function Game() {
           <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] space-y-4">
             <h3 className="font-semibold text-amber-400 text-center">Your Kingdom</h3>
             <KingdomImage level={state.kingdomLevel} />
-
-            {/* STATUS */}
             <div>
-              <h4 className="font-semibold text-lg text-amber-300 mb-2">Kingdom Status</h4>
               <p className="text-sm text-gray-300">Level: {state.kingdomLevel}</p>
               <p className="text-sm text-gray-300">Mining Power: {Math.floor(state.miningPower)}</p>
               <p className="text-sm text-gray-300">Mine Slots: <span className="font-mono">{usedSlots}/{maxSlots}</span></p>
@@ -290,21 +286,9 @@ export default function Game() {
                 <div className="font-mono text-xl text-amber-300">{Math.floor(state.balance)} $CROWN</div>
               </div>
             </div>
-
-            {/* PRZYCISKI */}
             <div className="flex flex-wrap gap-3 mt-3">
-              <button
-                onClick={upgradeKingdom}
-                className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all"
-              >
-                Upgrade ({upgradeCost} $CROWN)
-              </button>
-              <button
-                onClick={reset}
-                className="flex-1 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition"
-              >
-                Reset
-              </button>
+              <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">Upgrade ({upgradeCost} $CROWN)</button>
+              <button onClick={reset} className="flex-1 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition">Reset</button>
               <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
             </div>
           </div>
