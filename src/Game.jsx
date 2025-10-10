@@ -250,59 +250,73 @@ export default function Game() {
             </div>
           </div>
 
-          {/* AVAILABLE MINES — filtr wg odblokowań + stan limitu */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <h3 className="font-semibold text-amber-300">Available Mines</h3>
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {BUILDINGS.map(b => {
-                const unlocked = isUnlocked(b.id, state.kingdomLevel);
-                const canBuy = unlocked && usedSlots < maxSlots && state.balance >= b.price;
-                return (
-                  <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <div className="font-semibold text-gray-100">
-                          {b.name}{' '}
-                          <span className="text-xs text-gray-400">({b.rarity})</span>
-                        </div>
-                        {!unlocked ? (
-                          <div className="text-xs text-red-300 mt-1">
-                            Locked — requires Kingdom Level {requiredLevelFor(b.id)}
-                          </div>
-                        ) : (
-                          <div className="text-sm text-gray-400">Power +{b.basePower}</div>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        <div className="font-mono text-gray-200">{b.price} $CROWN</div>
-                        <button
-                          onClick={() => canBuy ? buyBuilding(b.id) : null}
-                          disabled={!canBuy}
-                          className={
-                            "mt-2 px-3 py-1.5 rounded-xl transition-all " +
-                            (canBuy
-                              ? "bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm"
-                              : "bg-gray-700 text-gray-400 cursor-not-allowed")
-                          }
-                          title={
-                            !unlocked
-                              ? `Unlock at Kingdom Level ${requiredLevelFor(b.id)}`
-                              : usedSlots >= maxSlots
-                              ? "Mine limit reached — upgrade your kingdom"
-                              : state.balance < b.price
-                              ? "Not enough $CROWN"
-                              : "Buy"
-                          }
-                        >
-                          {unlocked ? "Buy" : "Locked"}
-                        </button>
-                      </div>
-                    </div>
+          {/* AVAILABLE MINES */}
+<div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+  <h3 className="font-semibold text-amber-300">Available Mines</h3>
+  <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {BUILDINGS.map(b => {
+      const unlocked = isUnlocked(b.id, state.kingdomLevel);
+      const canBuy = unlocked && usedSlots < maxSlots && state.balance >= b.price;
+      const imgSrc = `/images/mines/${b.id}.png`; // 🔹 nowa linia — ścieżka do grafiki
+
+      return (
+        <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60 flex gap-3 items-center">
+          {/* OBRAZEK KOPALNI */}
+          <img
+            src={imgSrc}
+            alt={b.name}
+            className="w-20 h-20 object-cover rounded-lg border border-[#3b332b]"
+            loading="lazy"
+          />
+
+          {/* OPIS I PRZYCISK */}
+          <div className="flex-1">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="font-semibold text-gray-100">
+                  {b.name}{' '}
+                  <span className="text-xs text-gray-400">({b.rarity})</span>
+                </div>
+                {!unlocked ? (
+                  <div className="text-xs text-red-300 mt-1">
+                    Locked — requires Kingdom Level {requiredLevelFor(b.id)}
                   </div>
-                );
-              })}
+                ) : (
+                  <div className="text-sm text-gray-400">Power +{b.basePower}</div>
+                )}
+              </div>
+
+              <div className="text-right">
+                <div className="font-mono text-gray-200">{b.price} $CROWN</div>
+                <button
+                  onClick={() => canBuy ? buyBuilding(b.id) : null}
+                  disabled={!canBuy}
+                  className={
+                    "mt-2 px-3 py-1.5 rounded-xl transition-all " +
+                    (canBuy
+                      ? "bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm"
+                      : "bg-gray-700 text-gray-400 cursor-not-allowed")
+                  }
+                  title={
+                    !unlocked
+                      ? `Unlock at Kingdom Level ${requiredLevelFor(b.id)}`
+                      : usedSlots >= maxSlots
+                      ? "Mine limit reached — upgrade your kingdom"
+                      : state.balance < b.price
+                      ? "Not enough $CROWN"
+                      : "Buy"
+                  }
+                >
+                  {unlocked ? "Buy" : "Locked"}
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
 
           {/* YOUR MINES */}
           <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
