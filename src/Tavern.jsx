@@ -70,6 +70,13 @@ export default function Tavern() {
 return (
   <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-200 p-6">
     <header className="flex justify-between items-center mb-6 border-b border-[#3b332b]/60 pb-3">
+      <img
+        src="/images/logo.png"
+        alt="Crownforge"
+        className="h-14 md:h-16 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]"
+        loading="eager"
+        decoding="async"
+      />
       <h1 className="text-3xl font-bold text-amber-400">🍻 CrownForge Tavern</h1>
       <Link
         to="/"
