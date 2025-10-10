@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Coins } from "lucide-react";
 
+console.log("✅ Landing loaded");
+
 export default function Landing() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction, connected } = useWallet();
