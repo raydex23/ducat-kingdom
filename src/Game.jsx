@@ -5,9 +5,10 @@ import CrownBalance from "./components/CrownBalance";
 import CrownFaucet from "./components/CrownFaucet";
 
 const DEFAULT_STATE = {
-  balance: 5000,
+  balance: 300,
   miningPower: 1,
   kingdomLevel: 1,
+  energy: 100, // ⚡ nowa wartość
   lastUpgradeAt: null,
   buildings: [],
   lastCollectedAt: Date.now(),
@@ -16,7 +17,7 @@ const DEFAULT_STATE = {
 
 const BUILDINGS = [
   { id: 'coal',    name: 'Coal Mine',    price: 300,  basePower: 2,  rarity: 'common'    },
-  { id: 'iron',    name: 'Iron Mine',    price: 800,  basePower: 6,  rarity: 'rare'      },
+  { id: 'iron',    name: 'Iron Mine',    price: 800,  basePower: 6,  rarity: 'uncommon'      },
   { id: 'gold',    name: 'Gold Mine',    price: 2000, basePower: 15, rarity: 'epic'      },
   { id: 'diamond', name: 'Diamond Mine', price: 6000, basePower: 50, rarity: 'legendary' },
 ];
@@ -187,26 +188,35 @@ export default function Game() {
           <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl border border-[#3b332b] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
             <h2 className="font-semibold text-xl text-amber-400 mb-3 text-center">World Navigation</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { id: 'tavern', label: 'Tavern', color: 'text-amber-300' },
-                { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300' },
-                { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
-                { id: 'raids', label: 'Raids', color: 'text-red-300' },
-              ].map(b => (
-                <div key={b.id} className="flex flex-col items-center">
-                  <img
-                    src={`/images/world/${b.id}.png`}
-                    alt={b.label}
-                    className="w-20 h-20 object-cover rounded-xl border border-[#3b332b] mb-2 hover:scale-105 transition-transform duration-200"
-                  />
+            {[
+              { id: 'tavern', label: 'Tavern', color: 'text-amber-300', to: '/tavern' },
+              { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300' },
+              { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
+              { id: 'raids', label: 'Raids', color: 'text-red-300' },
+            ].map(b => (
+              <div key={b.id} className="flex flex-col items-center">
+                <img
+                  src={`/images/world/${b.id}.png`}
+                  alt={b.label}
+                  className="w-20 h-20 object-cover rounded-xl border border-[#3b332b] mb-2 hover:scale-105 transition-transform duration-200"
+                />
+                {b.to ? (
+                  <Link
+                    to={b.to}
+                    className={`w-full text-center px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
+                  >
+                    {b.label}
+                  </Link>
+                ) : (
                   <button
                     className={`w-full px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
                   >
                     {b.label}
                   </button>
-                </div>
-              ))}
-            </div>
+                )}
+              </div>
+            ))}
+          </div>
           </div>
 
           {/* AVAILABLE MINES */}
