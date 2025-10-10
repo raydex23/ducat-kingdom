@@ -11,6 +11,17 @@ import Landing from "./Landing";
 
 function HomeRouter() {
   const { connected } = useWallet();
+
+  // Fallback dla początkowego stanu (brak błędu, brak pustki)
+  if (connected === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-amber-400 text-xl">
+        Loading wallet...
+      </div>
+    );
+  }
+
+  // Gdy połączony -> gra, gdy nie -> landing
   return connected ? <Game /> : <Landing />;
 }
 
