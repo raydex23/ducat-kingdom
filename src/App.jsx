@@ -8,7 +8,7 @@ import Ranking from "./Ranking";
 import Tavern from "./Tavern";
 import PleasureHouse from "./PleasureHouse";
 import WalletConnectionProvider from "./WalletConnectionProvider";
-import Landing from "./pages/Landing"; // <- upewnij się, że ścieżka jest poprawna
+import Landing from "./Landing"; // <- upewnij się, że ścieżka jest poprawna
 
 function HomeRouter() {
   const { connected } = useWallet();
