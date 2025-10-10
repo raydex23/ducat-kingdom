@@ -66,7 +66,7 @@ export default function Landing() {
         Web3 RPG where every mine you build earns real $CROWN.
       </p>
 
-      <div className="space-y-5">
+      <div className="space-y-5 flex flex-col items-center">
         <WalletMultiButton className="!bg-amber-600 hover:!bg-amber-700 !text-black font-semibold !rounded-xl !px-6 !py-3 shadow-sm hover:shadow transition-all" />
 
         {connected && (
@@ -79,6 +79,16 @@ export default function Landing() {
             {loading ? "Processing..." : `Enter the Kingdom (0.2 SOL)`}
           </button>
         )}
+
+        {/* 🔗 WhitePaper Link */}
+        <a
+          href="https://docs.crownforge.io"  // <--- tu wklej swój link z GitBooka
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-amber-400 hover:text-amber-300 underline text-sm mt-4 transition-all"
+        >
+          📜 Read the CrownForge WhitePaper
+        </a>
       </div>
 
       <p className="mt-10 text-xs text-gray-500">
