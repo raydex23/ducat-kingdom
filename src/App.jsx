@@ -1,39 +1,33 @@
 // src/App.jsx
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 import Game from "./Game";
 import Ranking from "./Ranking";
 import Tavern from "./Tavern";
 import PleasureHouse from "./PleasureHouse";
-import Landing from "./Landing";
-
-function HomeRouter() {
-  const { connected } = useWallet();
-
-  // Fallback dla początkowego stanu (brak błędu, brak pustki)
-  if (connected === undefined) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-amber-400 text-xl">
-        Loading wallet...
-      </div>
-    );
-  }
-
-  // Gdy połączony -> gra, gdy nie -> landing
-  return connected ? <Game /> : <Landing />;
-}
+import Landing from "./Landing"; // upewnij się, że ścieżka i nazwa pliku są dokładne!
 
 export default function App() {
+  const { connected } = useWallet();
+
   return (
     <Routes>
-      <Route path="/" element={<HomeRouter />} />
+      {/* Strona główna */}
+      <Route
+        path="/"
+        element={connected ? <Navigate to="/game" replace /> : <Landing />}
+      />
+
+      {/* Główna gra */}
       <Route path="/game" element={<Game />} />
       <Route path="/ranking" element={<Ranking />} />
       <Route path="/tavern" element={<Tavern />} />
       <Route path="/pleasure" element={<PleasureHouse />} />
-      <Route path="*" element={<HomeRouter />} />
+
+      {/* fallback — przekierowanie */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
