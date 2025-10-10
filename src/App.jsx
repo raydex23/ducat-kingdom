@@ -13,7 +13,7 @@ import Landing from "./Landing"; // <- upewnij się, że ścieżka jest poprawna
 function HomeRouter() {
   const { connected } = useWallet();
 
-  // Bez kombinacji — proste rozróżnienie
+  // Bez kombinacji — proste rozróżnienie xd
   if (connected) {
     return <Game />;
   } else {
