@@ -275,6 +275,7 @@ export default function Game() {
         <aside className="md:sticky md:top-6 h-fit">
           <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] space-y-4">
             <h3 className="font-semibold text-amber-400 text-center">Your Kingdom</h3>
+            <div className="font-mono text-xl text-amber-300">CURRENT ESTIMATE: {Math.floor(state.balance)} $CROWN</div>
             <KingdomImage level={state.kingdomLevel} />
             <div>
               <p className="text-sm text-gray-300">Level: {state.kingdomLevel}</p>
@@ -283,7 +284,6 @@ export default function Game() {
               <p className="text-sm text-gray-300 mt-1">Est. daily yield: <span className="font-mono text-amber-300">{Math.floor(state.miningPower * 864)} $CROWN</span></p>
               <div className="mt-3 text-right">
                 <div className="text-xs text-gray-500 mb-1">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</div>
-                <div className="font-mono text-xl text-amber-300">{Math.floor(state.balance)} $CROWN</div>
               </div>
             </div>
             <div className="flex flex-wrap gap-3 mt-3">
