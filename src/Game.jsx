@@ -185,7 +185,7 @@ export default function Game() {
               { id: 'tavern', label: 'Tavern', color: 'text-amber-300', to: '/tavern' },
               { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300', to: '/pleasure' },
               { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
-              { id: 'raids', label: 'Raids', color: 'text-red-300' },
+              { id: 'raids', label: 'Raids and army', color: 'text-red-300' },
             ].map(b => (
               <div key={b.id} className="flex flex-col items-center">
                 <img
