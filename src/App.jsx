@@ -13,8 +13,12 @@ import Landing from "./Landing"; // <- upewnij się, że ścieżka jest poprawna
 function HomeRouter() {
   const { connected } = useWallet();
 
-  // If wallet is connected -> show Game, otherwise show Landing
-  return connected ? <Game /> : <Landing />;
+  // Bez kombinacji — proste rozróżnienie
+  if (connected) {
+    return <Game />;
+  } else {
+    return <Landing />;
+  }
 }
 
 export default function App() {
