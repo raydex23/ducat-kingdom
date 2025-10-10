@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import WalletConnectionProvider from "./WalletConnectionProvider";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
@@ -7,7 +8,9 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <WalletConnectionProvider>
+        <App />
+      </WalletConnectionProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
