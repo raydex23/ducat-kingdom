@@ -1,7 +1,8 @@
+// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import WalletConnectionProvider from "./WalletConnectionProvider";
 import { BrowserRouter } from "react-router-dom";
+import WalletConnectionProvider from "./WalletConnectionProvider";
 import App from "./App.jsx";
 import "./index.css";
 
