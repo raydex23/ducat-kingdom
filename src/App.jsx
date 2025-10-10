@@ -1,38 +1,34 @@
-// src/App.jsx
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 
+import WalletConnectionProvider from "./WalletConnectionProvider";
 import Game from "./Game";
 import Ranking from "./Ranking";
 import Tavern from "./Tavern";
 import PleasureHouse from "./PleasureHouse";
-import WalletConnectionProvider from "./WalletConnectionProvider";
-import Landing from "./Landing"; // <- upewnij się, że ścieżka jest poprawna
+import Landing from "./pages/Landing";
 
 function HomeRouter() {
   const { connected } = useWallet();
 
-  // Bez kombinacji — proste rozróżnienie xd
-  if (connected) {
-    return <Game />;
-  } else {
-    return <Landing />;
-  }
+  // proste sprawdzenie – jeśli wallet połączony, gra, inaczej landing
+  return connected ? <Game /> : <Landing />;
 }
 
 export default function App() {
   return (
-    <WalletConnectionProvider>
-      <Routes>
-        {/* root shows Landing for disconnected users, Game for connected */}
-        <Route path="/" element={<HomeRouter />} />
-
-        {/* other routes (you can protect them similarly if needed) */}
-        <Route path="/ranking" element={<Ranking />} />
-        <Route path="/tavern" element={<Tavern />} />
-        <Route path="/pleasure" element={<PleasureHouse />} />
-      </Routes>
-    </WalletConnectionProvider>
+    <BrowserRouter>
+      <WalletConnectionProvider>
+        <Routes>
+          <Route path="/" element={<HomeRouter />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/ranking" element={<Ranking />} />
+          <Route path="/tavern" element={<Tavern />} />
+          <Route path="/pleasure" element={<PleasureHouse />} />
+          <Route path="*" element={<HomeRouter />} />
+        </Routes>
+      </WalletConnectionProvider>
+    </BrowserRouter>
   );
 }
