@@ -7,7 +7,7 @@ import Game from "./Game";
 import Ranking from "./Ranking";
 import Tavern from "./Tavern";
 import PleasureHouse from "./PleasureHouse";
-import Landing from "./pages/Landing";
+import Landing from "./Landing";
 
 function HomeRouter() {
   const { connected } = useWallet();
