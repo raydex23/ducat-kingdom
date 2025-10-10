@@ -190,7 +190,7 @@ export default function Game() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { id: 'tavern', label: 'Tavern', color: 'text-amber-300', to: '/tavern' },
-              { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300', to: '/pleasurehouse' },
+              { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300', to: '/pleasure' },
               { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
               { id: 'raids', label: 'Raids', color: 'text-red-300' },
             ].map(b => (
