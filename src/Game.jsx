@@ -165,13 +165,6 @@ export default function Game() {
     }));
   }
 
-  function reset() {
-    if (confirm('Reset game data?')) {
-      localStorage.removeItem('ducat_game_en');
-      location.reload();
-    }
-  }
-
   const halvingInterval = 7 * 24 * 60 * 60 * 1000;
   const nextHalving = Math.max(0, halvingInterval - (now - state.startTime));
   const usedSlots = state.buildings.reduce((sum, b) => sum + (b.count || 0), 0);
@@ -298,7 +291,6 @@ export default function Game() {
             </div>
             <div className="flex flex-wrap gap-3 mt-3">
               <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">Upgrade ({upgradeCost} $CROWN)</button>
-              <button onClick={reset} className="flex-1 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-900/40 transition">Reset</button>
               <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
             </div>
           </div>
