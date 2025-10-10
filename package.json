@@ -19,7 +19,8 @@
     "@solana/web3.js": "^1.95.2",
     "@solana/spl-token": "^0.4.4",
     "bs58": "^5.0.0",
-    "framer-motion": "^11.0.0"
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.452.0"
   },
   "devDependencies": {
     "vite": "^5.3.3",
