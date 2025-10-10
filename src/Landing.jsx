@@ -7,15 +7,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Coins } from "lucide-react";
 
-console.log("✅ Landing loaded");
-
 export default function Landing() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction, connected } = useWallet();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const REGISTRATION_FEE_SOL = 0.2;
-  const GAME_TREASURY = new PublicKey("TREASURY_WALLET_ADDRESS_HERE"); // 👈 uzupełnij
+  const GAME_TREASURY = new PublicKey("Eu3mtAKC1z7HLme34nH9x9qgZX3WMACFJspGPj4suJBK"); // 👈 uzupełnij
 
   const handleRegister = useCallback(async () => {
     if (!publicKey) return alert("Please connect your wallet first.");
