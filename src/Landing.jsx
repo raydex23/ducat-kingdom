@@ -13,7 +13,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const REGISTRATION_FEE_SOL = 0.2;
-  const GAME_TREASURY = new PublicKey("Eu3mtAKC1z7HLme34nH9x9qgZX3WMACFJspGPj4suJBK"); // 👈 uzupełnij
+  const GAME_TREASURY = new PublicKey("Eu3mtAKC1z7HLme34nH9x9qgZX3WMACFJspGPj4suJBK");
 
   const handleRegister = useCallback(async () => {
     if (!publicKey) return alert("Please connect your wallet first.");
@@ -46,7 +46,20 @@ export default function Landing() {
   }, [publicKey, connection, sendTransaction, navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-100 flex flex-col items-center justify-center text-center p-6">
+        <div
+        className="min-h-screen bg-cover bg-center bg-no-repeat text-gray-100 flex flex-col items-center justify-center text-center p-6 relative"
+        style={{
+          backgroundImage: "url('/images/background.png')",
+        }}
+      >
+        {/* półprzezroczysty overlay dla czytelności tekstu */}
+        <div className="absolute inset-0 bg-black/60"></div>
+
+        {/* główna zawartość */}
+        <div className="relative z-10 flex flex-col items-center">
+          {/* ...cała reszta treści (logo, tytuł, przyciski itd.) */}
+        </div>
+      </div>
       <motion.img
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
