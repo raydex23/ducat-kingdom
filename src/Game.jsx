@@ -1,3 +1,4 @@
+// src/Game.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -8,7 +9,7 @@ const DEFAULT_STATE = {
   balance: 300,
   miningPower: 1,
   kingdomLevel: 1,
-  energy: 100, // ⚡ nowa wartość
+  energy: 100,
   lastUpgradeAt: null,
   buildings: [],
   lastCollectedAt: Date.now(),
@@ -16,9 +17,9 @@ const DEFAULT_STATE = {
 };
 
 const BUILDINGS = [
-  { id: 'coal',    name: 'Coal Mine',    price: 300,  basePower: 2,  rarity: 'common'    },
-  { id: 'iron',    name: 'Iron Mine',    price: 800,  basePower: 6,  rarity: 'uncommon'      },
-  { id: 'gold',    name: 'Gold Mine',    price: 2000, basePower: 15, rarity: 'epic'      },
+  { id: 'coal',    name: 'Coal Mine',    price: 300,  basePower: 2,  rarity: 'common' },
+  { id: 'iron',    name: 'Iron Mine',    price: 800,  basePower: 6,  rarity: 'uncommon' },
+  { id: 'gold',    name: 'Gold Mine',    price: 2000, basePower: 15, rarity: 'epic' },
   { id: 'diamond', name: 'Diamond Mine', price: 6000, basePower: 50, rarity: 'legendary' },
 ];
 
@@ -50,9 +51,8 @@ function usePersistedState(key, defaultVal) {
 
 function BrandHeader() {
   return (
-    <header className="mb-8 md:mb-10 border-b border-[#3b332b]/70 pb-4">
+    <header className="mb-8 md:mb-10 border-b border-[#3b332b]/70 pb-4 relative z-20">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        {/* LOGO + NAME */}
         <div className="flex items-center gap-3">
           <img
             src="/images/logo.png"
@@ -66,7 +66,6 @@ function BrandHeader() {
           </h1>
         </div>
 
-        {/* MENU + WALLET */}
         <div className="flex items-center gap-5 md:gap-6">
           <nav className="flex gap-4 md:gap-6 items-center text-sm md:text-base font-medium text-gray-300">
             <a href="/ranking" className="hover:text-amber-400 transition">Ranking</a>
@@ -170,131 +169,144 @@ export default function Game() {
   const usedSlots = state.buildings.reduce((sum, b) => sum + (b.count || 0), 0);
   const maxSlots = maxMinesForLevel(state.kingdomLevel);
 
+  // --- RETURN START ---
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713] text-gray-200 p-6">
-      <BrandHeader />
+    <div className="min-h-screen text-gray-200 relative overflow-hidden">
+      {/* Tło jak w Landing.jsx */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/background.png')" }}
+      ></div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* LEWA KOLUMNA */}
-        <div className="md:col-span-2 space-y-4">
-          {/* WORLD NAVIGATION */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl border border-[#3b332b] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <h2 className="font-semibold text-xl text-amber-400 mb-3 text-center">World Navigation</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { id: 'tavern', label: 'Tavern', color: 'text-amber-300', to: '/tavern' },
-              { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300', to: '/pleasure' },
-              { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
-              { id: 'raids', label: 'Raids and army', color: 'text-red-300' },
-            ].map(b => (
-              <div key={b.id} className="flex flex-col items-center">
-                <img
-                  src={`/images/world/${b.id}.png`}
-                  alt={b.label}
-                  className="w-20 h-20 object-cover rounded-xl border border-[#3b332b] mb-2 hover:scale-105 transition-transform duration-200"
-                />
-                {b.to ? (
-                  <Link
-                    to={b.to}
-                    className={`w-full text-center px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
-                  >
-                    {b.label}
-                  </Link>
-                ) : (
-                  <button
-                    className={`w-full px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
-                  >
-                    {b.label}
-                  </button>
-                )}
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      {/* Zawartość gry */}
+      <div className="relative z-10 p-6">
+        <BrandHeader />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* LEWA KOLUMNA */}
+          <div className="md:col-span-2 space-y-4">
+            {/* WORLD NAVIGATION */}
+            <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl border border-[#3b332b] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+              <h2 className="font-semibold text-xl text-amber-400 mb-3 text-center">World Navigation</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { id: 'tavern', label: 'Tavern', color: 'text-amber-300', to: '/tavern' },
+                  { id: 'pleasure', label: 'Pleasure House', color: 'text-pink-300', to: '/pleasure' },
+                  { id: 'alliance', label: 'Alliance', color: 'text-blue-300' },
+                  { id: 'raids', label: 'Raids and army', color: 'text-red-300' },
+                ].map(b => (
+                  <div key={b.id} className="flex flex-col items-center">
+                    <img
+                      src={`/images/world/${b.id}.png`}
+                      alt={b.label}
+                      className="w-20 h-20 object-cover rounded-xl border border-[#3b332b] mb-2 hover:scale-105 transition-transform duration-200"
+                    />
+                    {b.to ? (
+                      <Link
+                        to={b.to}
+                        className={`w-full text-center px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
+                      >
+                        {b.label}
+                      </Link>
+                    ) : (
+                      <button
+                        className={`w-full px-3 py-2 rounded-xl bg-[#3a322a]/70 hover:bg-[#4a3b30] ${b.color} border border-[#5a4a3b]/60 shadow-sm transition text-sm`}
+                      >
+                        {b.label}
+                      </button>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          </div>
+            </div>
 
-          {/* AVAILABLE MINES */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <h3 className="font-semibold text-amber-300">Available Mines</h3>
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {BUILDINGS.map(b => {
-                const unlocked = isUnlocked(b.id, state.kingdomLevel);
-                const canBuy = unlocked && usedSlots < maxSlots && state.balance >= b.price;
-                const imgSrc = `/images/mines/${b.id}.png`;
+            {/* AVAILABLE MINES */}
+            <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+              <h3 className="font-semibold text-amber-300">Available Mines</h3>
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {BUILDINGS.map(b => {
+                  const unlocked = isUnlocked(b.id, state.kingdomLevel);
+                  const canBuy = unlocked && usedSlots < maxSlots && state.balance >= b.price;
+                  const imgSrc = `/images/mines/${b.id}.png`;
 
-                return (
-                  <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60 flex gap-3 items-center">
-                    <img src={imgSrc} alt={b.name} className="w-20 h-20 object-cover rounded-lg border border-[#3b332b]" loading="lazy" />
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="font-semibold text-gray-100">{b.name} <span className="text-xs text-gray-400">({b.rarity})</span></div>
-                          {!unlocked ? (
-                            <div className="text-xs text-red-300 mt-1">Locked — requires Kingdom Level {requiredLevelFor(b.id)}</div>
-                          ) : (
-                            <div className="text-sm text-gray-400">Power +{b.basePower}</div>
-                          )}
-                        </div>
-                        <div className="text-right">
-                          <div className="font-mono text-gray-200">{b.price} $CROWN</div>
-                          <button
-                            onClick={() => canBuy ? buyBuilding(b.id) : null}
-                            disabled={!canBuy}
-                            className={
-                              "mt-2 px-3 py-1.5 rounded-xl transition-all " +
-                              (canBuy ? "bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm"
-                                      : "bg-gray-700 text-gray-400 cursor-not-allowed")
-                            }
-                            title={
-                              !unlocked ? `Unlock at Kingdom Level ${requiredLevelFor(b.id)}`
-                              : usedSlots >= maxSlots ? "Mine limit reached — upgrade your kingdom"
-                              : state.balance < b.price ? "Not enough $CROWN" : "Buy"
-                            }
-                          >
-                            {unlocked ? "Buy" : "Locked"}
-                          </button>
+                  return (
+                    <div key={b.id} className="p-3 border border-[#3b332b] rounded bg-[#1f1a16]/60 flex gap-3 items-center">
+                      <img src={imgSrc} alt={b.name} className="w-20 h-20 object-cover rounded-lg border border-[#3b332b]" loading="lazy" />
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <div className="font-semibold text-gray-100">{b.name} <span className="text-xs text-gray-400">({b.rarity})</span></div>
+                            {!unlocked ? (
+                              <div className="text-xs text-red-300 mt-1">Locked — requires Kingdom Level {requiredLevelFor(b.id)}</div>
+                            ) : (
+                              <div className="text-sm text-gray-400">Power +{b.basePower}</div>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <div className="font-mono text-gray-200">{b.price} $CROWN</div>
+                            <button
+                              onClick={() => canBuy ? buyBuilding(b.id) : null}
+                              disabled={!canBuy}
+                              className={
+                                "mt-2 px-3 py-1.5 rounded-xl transition-all " +
+                                (canBuy ? "bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm"
+                                        : "bg-gray-700 text-gray-400 cursor-not-allowed")
+                              }
+                              title={
+                                !unlocked ? `Unlock at Kingdom Level ${requiredLevelFor(b.id)}`
+                                : usedSlots >= maxSlots ? "Mine limit reached — upgrade your kingdom"
+                                : state.balance < b.price ? "Not enough $CROWN" : "Buy"
+                              }
+                            >
+                              {unlocked ? "Buy" : "Locked"}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* YOUR MINES */}
+            <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
+              <h3 className="font-semibold text-amber-300">Your Mines</h3>
+              {state.buildings.length === 0 && <div className="text-sm text-gray-400">No mines owned</div>}
+              {state.buildings.map(b => (
+                <div key={b.id} className="flex justify-between p-2 border-b border-[#3b332b]">
+                  <div className="text-gray-200">{b.name} x{b.count} <span className="text-xs text-gray-400">({b.rarity})</span></div>
+                  <div className="font-mono text-amber-200">+{b.basePower * b.count} MP</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* YOUR MINES */}
-          <div className="p-4 md:p-5 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b]">
-            <h3 className="font-semibold text-amber-300">Your Mines</h3>
-            {state.buildings.length === 0 && <div className="text-sm text-gray-400">No mines owned</div>}
-            {state.buildings.map(b => (
-              <div key={b.id} className="flex justify-between p-2 border-b border-[#3b332b]">
-                <div className="text-gray-200">{b.name} x{b.count} <span className="text-xs text-gray-400">({b.rarity})</span></div>
-                <div className="font-mono text-amber-200">+{b.basePower * b.count} MP</div>
+          {/* PRAWA KOLUMNA */}
+          <aside className="md:sticky md:top-6 h-fit">
+            <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] space-y-4">
+              <h3 className="font-semibold text-amber-400 text-center">Your Kingdom</h3>
+              <div className="font-mono text-xl text-amber-300">CURRENT ESTIMATE: {Math.floor(state.balance)} $CROWN</div>
+              <KingdomImage level={state.kingdomLevel} />
+              <div>
+                <p className="text-sm text-gray-300">Level: {state.kingdomLevel}</p>
+                <p className="text-sm text-gray-300">Mining Power: {Math.floor(state.miningPower)}</p>
+                <p className="text-sm text-gray-300">Mine Slots: <span className="font-mono">{usedSlots}/{maxSlots}</span></p>
+                <p className="text-sm text-gray-300 mt-1">Est. daily yield: <span className="font-mono text-amber-300">{Math.floor(state.miningPower * 864)} $CROWN</span></p>
+                <div className="mt-3 text-right">
+                  <div className="text-xs text-gray-500 mb-1">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</div>
+                </div>
               </div>
-            ))}
-          </div>
+              <div className="flex flex-wrap gap-3 mt-3">
+                <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">Upgrade ({upgradeCost} $CROWN)</button>
+                <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
+              </div>
+            </div>
+          </aside>
         </div>
-
-        {/* PRAWA KOLUMNA */}
-        <aside className="md:sticky md:top-6 h-fit">
-          <div className="p-4 bg-[#2a2520]/80 backdrop-blur rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-[#3b332b] space-y-4">
-            <h3 className="font-semibold text-amber-400 text-center">Your Kingdom</h3>
-            <div className="font-mono text-xl text-amber-300">CURRENT ESTIMATE: {Math.floor(state.balance)} $CROWN</div>
-            <KingdomImage level={state.kingdomLevel} />
-            <div>
-              <p className="text-sm text-gray-300">Level: {state.kingdomLevel}</p>
-              <p className="text-sm text-gray-300">Mining Power: {Math.floor(state.miningPower)}</p>
-              <p className="text-sm text-gray-300">Mine Slots: <span className="font-mono">{usedSlots}/{maxSlots}</span></p>
-              <p className="text-sm text-gray-300 mt-1">Est. daily yield: <span className="font-mono text-amber-300">{Math.floor(state.miningPower * 864)} $CROWN</span></p>
-              <div className="mt-3 text-right">
-                <div className="text-xs text-gray-500 mb-1">Next halving in: {Math.ceil(nextHalving / 1000 / 60 / 60)}h</div>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-3 mt-3">
-              <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">Upgrade ({upgradeCost} $CROWN)</button>
-              <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   );
