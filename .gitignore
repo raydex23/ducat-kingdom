@@ -3,4 +3,8 @@
 /dist
 node_modules
 .env
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> e2b6dcf73cd74f7a3e2948d8faeaa6f001dbfd34
