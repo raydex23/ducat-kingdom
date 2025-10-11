@@ -20,7 +20,6 @@ export default function Landing() {
     try {
       setLoading(true);
 
-      // 1️⃣ create tx to send 0.2 SOL to treasury
       const tx = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: publicKey,
@@ -32,10 +31,7 @@ export default function Landing() {
       const signature = await sendTransaction(tx, connection);
       await connection.confirmTransaction(signature, "processed");
 
-      // 2️⃣ here call your backend or faucet to airdrop $CROWN equivalent
       alert("Registration successful! $CROWN starter pack incoming...");
-
-      // 3️⃣ redirect to game
       navigate("/game");
     } catch (err) {
       console.error(err);
@@ -46,70 +42,69 @@ export default function Landing() {
   }, [publicKey, connection, sendTransaction, navigate]);
 
   return (
-        <div
-        className="min-h-screen bg-cover bg-center bg-no-repeat text-gray-100 flex flex-col items-center justify-center text-center p-6 relative"
-        style={{
-          backgroundImage: "url('/images/background.png')",
-        }}
-      >
-        {/* półprzezroczysty overlay dla czytelności tekstu */}
-        <div className="absolute inset-0 bg-black/60"></div>
+    <div
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat text-gray-100 flex flex-col items-center justify-center text-center p-6"
+      style={{
+        backgroundImage: "url('/images/background.png')",
+      }}
+    >
+      {/* Overlay dla kontrastu */}
+      <div className="absolute inset-0 bg-black/60"></div>
 
-        {/* główna zawartość */}
-        <div className="relative z-10 flex flex-col items-center">
-          {/* ...cała reszta treści (logo, tytuł, przyciski itd.) */}
-        </div>
-      </div>
-      <motion.img
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        src="/images/logo.png"
-        alt="CrownForge"
-        className="h-28 w-auto mb-6 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
-      />
-      <motion.h1
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-5xl md:text-6xl font-bold text-amber-400 mb-4"
-      >
-        CrownForge
-      </motion.h1>
-      <p className="max-w-xl text-gray-400 mb-10">
-        Enter a world of gold, fire, and ambition. Forge your destiny in the medieval
-        Web3 RPG where every mine you build earns real $CROWN.
-      </p>
+      {/* Główna zawartość */}
+      <div className="relative z-10 flex flex-col items-center">
+        <motion.img
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          src="/images/logo.png"
+          alt="CrownForge"
+          className="h-28 w-auto mb-6 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
+        />
 
-      <div className="space-y-5 flex flex-col items-center">
-        <WalletMultiButton className="!bg-amber-600 hover:!bg-amber-700 !text-black font-semibold !rounded-xl !px-6 !py-3 shadow-sm hover:shadow transition-all" />
-
-        {connected && (
-          <button
-            disabled={loading}
-            onClick={handleRegister}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all shadow-md border border-emerald-700/40 disabled:opacity-60"
-          >
-            <Coins size={20} />
-            {loading ? "Processing..." : `Enter the Kingdom (0.2 SOL)`}
-          </button>
-        )}
-
-        {/* 🔗 WhitePaper Link */}
-        <a
-          href="https://docs.crownforge.io"  // <--- tu wklej swój link z GitBooka
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-amber-400 hover:text-amber-300 underline text-sm mt-4 transition-all"
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-5xl md:text-6xl font-bold text-amber-400 mb-4"
         >
-          📜 Read the CrownForge WhitePaper
-        </a>
-      </div>
+          CrownForge
+        </motion.h1>
 
-      <p className="mt-10 text-xs text-gray-500">
-        Registration fee: 0.2 SOL → rewarded with equivalent $CROWN on-chain.
-      </p>
-      <p className="text-xs text-gray-600 mt-1">
-        No presale • No whitelist • 100% fair launch
-      </p>
+        <p className="max-w-xl text-gray-400 mb-10">
+          Enter a world of gold, fire, and ambition. Forge your destiny in the medieval
+          Web3 RPG where every mine you build earns real $CROWN.
+        </p>
+
+        <div className="space-y-5 flex flex-col items-center">
+          <WalletMultiButton className="!bg-amber-600 hover:!bg-amber-700 !text-black font-semibold !rounded-xl !px-6 !py-3 shadow-sm hover:shadow transition-all" />
+
+          {connected && (
+            <button
+              disabled={loading}
+              onClick={handleRegister}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all shadow-md border border-emerald-700/40 disabled:opacity-60"
+            >
+              <Coins size={20} />
+              {loading ? "Processing..." : `Enter the Kingdom (0.2 SOL)`}
+            </button>
+          )}
+
+          <a
+            href="https://docs.crownforge.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-amber-400 hover:text-amber-300 underline text-sm mt-4 transition-all"
+          >
+            📜 Read the CrownForge WhitePaper
+          </a>
+        </div>
+
+        <p className="mt-10 text-xs text-gray-500">
+          Registration fee: 0.2 SOL → rewarded with equivalent $CROWN on-chain.
+        </p>
+        <p className="text-xs text-gray-600 mt-1">
+          No presale • No whitelist • 100% fair launch
+        </p>
+      </div>
     </div>
   );
 }
