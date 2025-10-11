@@ -1,0 +1,6 @@
+# Ignore build output
+/server/crownforge.db*
+/dist
+node_modules
+.env
+.DS_Store
