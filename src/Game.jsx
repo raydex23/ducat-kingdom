@@ -7,7 +7,7 @@ import CrownFaucet from "./components/CrownFaucet";
 
 const DEFAULT_STATE = {
   balance: 300,
-  miningPower: 1,
+  miningPower: 0,
   kingdomLevel: 1,
   energy: 100,
   lastUpgradeAt: null,
