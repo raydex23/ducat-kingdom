@@ -51,27 +51,23 @@ function usePersistedState(key, defaultVal) {
 
 function BrandHeader() {
   return (
-    <header className="mb-8 md:mb-10 border-b border-[#3b332b]/70 pb-4">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        {/* LOGO + NAME */}
+    <header className="bg-gradient-to-b from-[#1a1713] via-[#211d18] to-[#1a1713] border-b border-[#3b332b]/70 pb-4 mb-0">
+      <div className="px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
           <img
             src="/images/logo.png"
             alt="Crownforge"
             className="h-14 md:h-16 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]"
-            loading="eager"
-            decoding="async"
           />
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-100">
             Crownforge <span className="text-amber-400">— Beta</span>
           </h1>
         </div>
 
-        {/* MENU + WALLET */}
         <div className="flex items-center gap-5 md:gap-6">
           <nav className="flex gap-4 md:gap-6 items-center text-sm md:text-base font-medium text-gray-300">
             <a href="/ranking" className="hover:text-amber-400 transition">Ranking</a>
-            <a href="https://jup.ag/swap/SOL-CROWN" target="_blank" className="hover:text-amber-400 transition">Trade $CROWN</a>
+            <a href="https://jup.ag/swap/SOL-CROWN" target="_blank" rel="noreferrer" className="hover:text-amber-400 transition">Trade $CROWN</a>
             <CrownBalance />
           </nav>
 
@@ -171,26 +167,21 @@ export default function Game() {
   const usedSlots = state.buildings.reduce((sum, b) => sum + (b.count || 0), 0);
   const maxSlots = maxMinesForLevel(state.kingdomLevel);
 
-  // --- RETURN START ---
+  // --- RETURN ---
   return (
-    <div className="min-h-screen text-gray-200">
-      {/* HEADER z własnym tłem (NIE pokazuje sceny w tle) */}
-      <div className="bg-gradient-to-b from-[#1c1a17] via-[#2a2520] to-[#1a1713]">
-        <div className="px-6">
-          <BrandHeader />
-        </div>
-      </div>
+    <div className="min-h-screen text-gray-200 bg-[#1a1713]">
+      <BrandHeader />
 
-      {/* Główna część gry z tłem */}
+      {/* Główna sekcja gry z tłem */}
       <main className="relative">
-        {/* Tło tylko dla MAIN (nie dla headera) */}
+        {/* Tło tylko pod sekcją gry */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/background.png')" }}
         ></div>
         <div className="absolute inset-0 bg-black/60"></div>
 
-        {/* Treść */}
+        {/* Treść gry */}
         <div className="relative z-10 p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* LEWA KOLUMNA */}
@@ -262,11 +253,6 @@ export default function Game() {
                                   (canBuy ? "bg-emerald-600/90 hover:bg-emerald-700 text-white shadow-sm"
                                           : "bg-gray-700 text-gray-400 cursor-not-allowed")
                                 }
-                                title={
-                                  !unlocked ? `Unlock at Kingdom Level ${requiredLevelFor(b.id)}`
-                                  : usedSlots >= maxSlots ? "Mine limit reached — upgrade your kingdom"
-                                  : state.balance < b.price ? "Not enough $CROWN" : "Buy"
-                                }
                               >
                                 {unlocked ? "Buy" : "Locked"}
                               </button>
@@ -308,7 +294,9 @@ export default function Game() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-3">
-                  <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">Upgrade ({upgradeCost} $CROWN)</button>
+                  <button onClick={upgradeKingdom} className="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-black font-semibold shadow transition-all">
+                    Upgrade ({upgradeCost} $CROWN)
+                  </button>
                   <CrownFaucet balance={state.balance} resetBalance={() => setState(st => ({ ...st, balance: 0 }))} />
                 </div>
               </div>
