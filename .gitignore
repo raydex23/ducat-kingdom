@@ -1,8 +1,6 @@
 # Ignore build output
-/server/crownforge.db*
 /dist
 node_modules
-.env
 <<<<<<< HEAD
 .DS_Store
 =======
